@@ -1,6 +1,7 @@
 package io.java;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -106,4 +107,36 @@ class MathUtilsTest {
 	 * @EnabledIfSystemProperty
 	 * @EnabledIfEnvironmentVariable
 	 */
+	
+	//----------assumptions---------------
+	
+	/* 
+	 * assumeTrue()
+	 * junit will assume that value inside assumeTrue(value) should be true then only test cases will be executed further
+	 * 
+	 */
+	
+	@Test
+	void test_for_assumption() {
+		boolean isServerUp = false;
+		assumeTrue(isServerUp);
+		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0), "divide by zero should throw");
+	}
+	
+
+	@Test
+	@DisplayName("multiply method")
+	void testMultiply() {
+		assertNotNull(mathUtils.multiply(2, 2), "should not be null");
+		//assertEquals(4, mathUtils.multiply(2,2), "should multiply 2 values");
+		//assertAll will execute multiple assert at same time if any one of them get failed the test method will fail
+		assertAll(
+					() -> assertEquals(4, mathUtils.multiply(2,2), "should multiply 2 values"),
+					() -> assertEquals(-4, mathUtils.multiply(2,-2), "should multiply 2 values with negative result"),
+					() -> assertEquals(0, mathUtils.multiply(2,0), "should multiply 2 values with result as 0")
+				);
+	}
+	
+	
+	
 }
